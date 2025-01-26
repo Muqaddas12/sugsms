@@ -26,3 +26,14 @@ token
 
 
 https://sug.digiicampus.com/api/userManagement/change/password
+
+
+
+
+
+
+file path of images is file:///data/user/0/com.android.sugsms/cache/mlkit_docscan_ui_client/
+
+
+
+ const sourceUri = fs.documentDirectory + 'test.pdf'; 

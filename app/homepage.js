@@ -6,7 +6,7 @@ import DocumentScanner from 'react-native-document-scanner-plugin';
 import { AntDesign } from "@expo/vector-icons";
 const { width, height } = Dimensions.get('window');
 import Footer from "../src/components/Footer";
-
+import CreatePdf from "./pdf/createpdf";
 const Homepage = () => {
   const { data } = useLocalSearchParams();
   const [scannedImage, setScannedImage] = useState([]);
@@ -48,7 +48,9 @@ const Homepage = () => {
       alert('Error in scanning');
     }
   };
-
+const handleCreatePdf=()=>{
+  CreatePdf()
+}
   return (
     <View style={styles.container}>
       <Navbar data={data} />
@@ -68,7 +70,7 @@ const Homepage = () => {
               <TouchableOpacity style={styles.scanButton} onPress={scanMoreDocument}>
                 <Text style={styles.scanButtonText}>Scan More</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.scanButton}>
+              <TouchableOpacity style={styles.scanButton} onPress={handleCreatePdf}>
                 <Text style={styles.scanButtonText}>Submit Pdf</Text>
               </TouchableOpacity>
             </View>
@@ -80,6 +82,9 @@ const Homepage = () => {
             <View style={styles.footer}>
               <TouchableOpacity style={styles.scanButton} onPress={scanDocument}>
                 <Text style={styles.scanButtonText}>Click Here To Scan Document</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.scanButton} onPress={handleCreatePdf}>
+                <Text style={styles.scanButtonText}>Submit Pdf</Text>
               </TouchableOpacity>
             </View>
           </View>

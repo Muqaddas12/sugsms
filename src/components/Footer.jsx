@@ -10,7 +10,8 @@ const Footer = () => {
        router.push('/homepage')
     }
     const pdffile=()=>{
-      FetchDataFromStorage()
+      router.push('/pdf/PdfViewer')
+      // FetchDataFromStorage()
     }
     const infocirlce=()=>{
     router.push('/status')

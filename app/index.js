@@ -39,7 +39,6 @@ const Index = () => {
   const handlePress = async () => {
 
    
-    
     const currentDate = new Date();
     const loginTime = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
 
@@ -60,7 +59,7 @@ const Index = () => {
     const url = "https://sug.digiicampus.com/rest/service/authenticate";
 
     try {
-      setLoading(true)
+    
       const response = await axios.post(url, payload);  // Use `axios.post` directly and pass `payload` in `data`
       if (response.data.res.message === 'SUCCESS') {
         console.log(response.data.res.user)
@@ -145,7 +144,7 @@ const Index = () => {
           </TouchableOpacity>
         </Text>
         <ActivityIndicator size={'large'}
-        animating={false}/>
+        animating={loading}/>
       </SafeAreaView>
     </SafeAreaProvider>
   );
