@@ -4,16 +4,15 @@ import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 const { width, height } = Dimensions.get("window");
 import FetchDataFromStorage from "../helper/FetchDataFromStorage";
-import CreatePdf from "../../app/pdf/createpdf";
+import CreatePdf from "../helper/createpdf";
 const Footer = () => {
     const router=useRouter()
     const homeController=()=>{
        router.push('/homepage')
     }
     const pdffile=()=>{
-      // router.push('/pdf/PdfViewer')
-      // FetchDataFromStorage()
-      CreatePdf()
+      router.push('/managePdfFiles')
+     
     }
     const infocirlce=()=>{
     router.push('/status')

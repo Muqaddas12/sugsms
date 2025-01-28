@@ -1,27 +1,35 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Platform, PermissionsAndroid, Alert, TouchableOpacity, Image, Dimensions, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Alert, TouchableOpacity, Image, ScrollView, ActivityIndicator } from "react-native";
 import Navbar from "../src/components/Navbar";
 import { useLocalSearchParams } from "expo-router";
 import DocumentScanner from 'react-native-document-scanner-plugin';
 import { AntDesign } from "@expo/vector-icons";
-const { width, height } = Dimensions.get('window');
 import Footer from "../src/components/Footer";
-import CreatePdf from "./pdf/createpdf";
+import CreatePdf from "../src/helper/createpdf";
+import requestPermission from "../src/helper/requestPermission";
+import * as fs from 'expo-file-system'
+import { width,height } from "../src/wrapper/Dimensions";
+
 const Homepage = () => {
+  const [loading,setLoading]=useState(false)
   const { data } = useLocalSearchParams();
   const [scannedImage, setScannedImage] = useState([]);
 
   // Function to scan the document
   const scanDocument = async () => {
-    if (Platform.OS === 'android') {
-      const permissionGranted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
-      const storagePermission = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
-      if (permissionGranted !== PermissionsAndroid.RESULTS.GRANTED || storagePermission !== PermissionsAndroid.RESULTS.GRANTED) {
-        Alert.alert('Error', 'Please provide camera and storage permission to scan document');
-        return;
-      }
-    }
-
+  //requesting permission
+  const hasPermission=await requestPermission()
+  if(!hasPermission){
+    Alert.alert('please provide camera and storage permission to scan documents')
+    return
+  }
+try {
+  const dicPath='file:///data/user/0/com.android.sugsms/cache/mlkit_docscan_ui_client/'
+  await fs.deleteAsync(dicPath,{idempotent:true})
+  console.log('dicrectory deleted successfully')
+} catch (error) {
+  console.log('error deleting the dicrecotry',error)
+}
     // Start document scanning
     try {
       const { scannedImages } = await DocumentScanner.scanDocument();
@@ -49,7 +57,7 @@ const Homepage = () => {
     }
   };
 const handleCreatePdf=()=>{
-  CreatePdf()
+CreatePdf()
 }
   return (
     <View style={styles.container}>
@@ -83,10 +91,9 @@ const handleCreatePdf=()=>{
               <TouchableOpacity style={styles.scanButton} onPress={scanDocument}>
                 <Text style={styles.scanButtonText}>Click Here To Scan Document</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.scanButton} onPress={handleCreatePdf}>
-                <Text style={styles.scanButtonText}>Submit Pdf</Text>
-              </TouchableOpacity>
-            </View>
+          
+            </View> 
+             <ActivityIndicator size={'large'} animating={loading} />
           </View>
         )}
       </ScrollView>
@@ -105,20 +112,24 @@ const styles = StyleSheet.create({
   welcomeContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+
   },
   mainContainer: {
-    alignItems: 'center',
-    padding: 20,
-    paddingBottom: 50, // Make sure there's some space for the footer
+     padding: 20,
+     flexWrap:'wrap',
+     flexDirection:'row',
+     
   },
   footerContainer:{
 alignItems:'center',
 marginBottom:20
   },
   imageContainer:{
-    marginBottom:10,
-    width:width*0.8,
-borderWidth:1
+margin:5,
+    width:width*0.4,
+
+ 
+
   },
   greeting: {
     fontSize: 24,
@@ -126,8 +137,10 @@ borderWidth:1
     marginBottom: 20,
   },
   scannedImage: {
-    width: width*0.8,
-    height: height * 0.7, // Adjust the image size
+    
+    width: width*0.4,
+  
+    height: height * 0.3, // Adjust the image size
   
   },
   footer: {
@@ -139,6 +152,7 @@ borderWidth:1
    justifyContent:'space-evenly',
   },
   scanButton: {
+    
     backgroundColor: '#4CAF50',
     paddingVertical: 10,
     paddingHorizontal: 20,
