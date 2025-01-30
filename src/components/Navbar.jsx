@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   View,
@@ -54,9 +55,6 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const switchRoute = (item) => {
-    router.push(item.link);
-  };
   const Logout=()=>{
 router.push('/logout')
   }
@@ -96,23 +94,28 @@ router.push('/logout')
             <Text style={styles.userDetailsText}>{email}</Text>
           </View>
         </View>
-
-        {/* Menu Items */}
-        <FlatList
-          data={[
-            { id: 1, label: "Home", link: "/homepage" },
-            { id: 2, label: "Profile", link: "/profile" },
-            { id: 4, label: "About", link: "/about" },
-            { id: 3, label: "ContactUs", link: "/contactus" },
-            { id: 5, label: "Logout", link: "/logout" },
-          ]}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => switchRoute(item)} style={styles.menuItem}>
-              <Text style={styles.menuItemText}>{item.label}</Text>
+        <TouchableOpacity onPress={() =>router.push('homepage') } style={styles.menuItem}>
+        <Icon style={styles.icon} name="home"/>
+              <Text style={styles.menuItemText}>Homepage</Text>
             </TouchableOpacity>
-          )}
-        />
+            <TouchableOpacity onPress={() => router.push('profile')} style={styles.menuItem}>
+            <AntDesign style={styles.icon}  name="user"/>
+              <Text style={styles.menuItemText}>Profile</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('about')} style={styles.menuItem}>
+            <AntDesign style={styles.icon}  name="infocirlce"/>
+              <Text style={styles.menuItemText}>About</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('contactus')} style={styles.menuItem}>
+            <AntDesign style={styles.icon}  name="customerservice"/>
+              <Text style={styles.menuItemText}>ContactUs</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('logout')} style={styles.menuItem}>
+            <AntDesign style={styles.icon}  name="logout"/>
+              <Text style={styles.menuItemText}>Logout</Text>
+            </TouchableOpacity>
+    
+     
       </Animated.View>
     </SafeAreaView>
   );
@@ -161,11 +164,13 @@ const styles = StyleSheet.create({
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
+    flexDirection:'row'
   },
   menuItemText: {
     fontSize: 18,
     color: "#333",
     fontWeight: "600",
+    paddingTop:3,
   },
   userDetailsContainer: {
     backgroundColor: "#6200ea",
@@ -206,6 +211,11 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     zIndex: 1,
   },
+  icon:{
+   fontSize:25,
+   paddingRight:10,
+   paddingTop:2,
+  }
 });
 
 export default Navbar;

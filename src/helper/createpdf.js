@@ -1,7 +1,7 @@
 import { createPdf } from 'react-native-images-to-pdf';
 import * as FileSystem from 'expo-file-system';
-
 const CreatePdf = async () => {
+
   // Use expo-file-system's document directory or cache directory
   const imagesPath = FileSystem.cacheDirectory + 'mlkit_docscan_ui_client/'; // Correct path for expo-file-system
   
@@ -27,14 +27,17 @@ const CreatePdf = async () => {
       pages: pages, // Pass the pages array
       outputPath: outputDirectory, // Define output path
     });
-
+ 
     console.log(`PDF created successfully at: ${result}`);
-  
+ 
     // Check if the PDF was saved correctly
     const data = await FileSystem.readDirectoryAsync(directoryUri);
     console.log('Files in directory:', data);
+  
+return true
   } catch (error) {
     console.error('Error occurred:', error);
+    return false
   }
 };
 

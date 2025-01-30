@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Alert, TouchableOpacity, Image, ScrollView, Act
 import Navbar from "../src/components/Navbar";
 import { useLocalSearchParams } from "expo-router";
 import DocumentScanner from 'react-native-document-scanner-plugin';
-import { AntDesign } from "@expo/vector-icons";
 import Footer from "../src/components/Footer";
 import CreatePdf from "../src/helper/createpdf";
 import requestPermission from "../src/helper/requestPermission";
@@ -56,8 +55,13 @@ try {
       alert('Error in scanning');
     }
   };
-const handleCreatePdf=()=>{
-CreatePdf()
+const handleCreatePdf=async()=>{
+if(await CreatePdf()){
+  // console.log('hello')
+  // router.push('/managePdfFiles')
+ 
+}
+
 }
   return (
     <View style={styles.container}>

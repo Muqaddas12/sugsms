@@ -12,7 +12,6 @@ import { ActivityIndicatorLoading } from "../stylesheets/ActivityIndicator";
 const Index = () => {
   const router=useRouter()
 const [bGColor,setBGColor]=useState(null)
-
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [loading,setLoading]=useState(false)
@@ -34,8 +33,6 @@ const [bGColor,setBGColor]=useState(null)
       }
   
     VerifyUser() 
-    console.log('verify user')
-
   },[])
 
 
