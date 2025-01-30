@@ -1,0 +1,33 @@
+# Exclude node_modules (often not needed in the build process)
+node_modules/
+
+# Exclude unnecessary files related to local development
+*.log
+*.tmp
+*.swp
+
+# Exclude testing and linting configuration files (if not needed)
+eslint.json
+jest.config.js
+coverage/
+test/
+
+# Exclude build artifacts and caches
+dist/
+build/
+.expo/
+.expo-shared/
+
+# Exclude IDE and editor-specific files
+.vscode/
+.idea/
+*.iml
+
+# Exclude system files
+.DS_Store
+Thumbs.db
+
+# Exclude other large files you don't need in the build
+*.zip
+*.tar
+*.tar.gz
