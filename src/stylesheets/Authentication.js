@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-
+import { width,height } from "../wrapper/Dimensions";
 
 export const styles = StyleSheet.create({
   container: {
@@ -77,5 +77,9 @@ export const styles = StyleSheet.create({
     },
     CheckBox:{
 margin:10,
+    },
+    AIBG:{
+      backgroundColor:'white',
     }
+   
 });

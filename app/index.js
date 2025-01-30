@@ -1,47 +1,55 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useRouter,useLocalSearchParams } from "expo-router";
 import axios from "axios";
-import { Text, TextInput, TouchableOpacity, Image, Alert,ActivityIndicator,StatusBar } from "react-native";
+import { Text, TextInput, TouchableOpacity, Image, Alert,ActivityIndicator,StatusBar,View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../src/stylesheets/Authentication";
 import AsyncStorage from "@react-native-async-storage/async-storage";
   
-
+import { ActivityIndicatorLoading } from "../stylesheets/ActivityIndicator";
      
 
 const Index = () => {
   const router=useRouter()
+const [bGColor,setBGColor]=useState(null)
 
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [loading,setLoading]=useState(false)
-  const VerifyUser=async()=>{
-    const userData= await AsyncStorage.multiGet(['username','password'])
-    const username = userData[0][1];
-    const password = userData[1][1];
-    if((username&&password)){
-      setUsername(username)
-      setPassword(password)
-      console.log(username,password)  
-      handlePress()
 
-    } 
 
-    }
-
+  useEffect(()=>{
+    const VerifyUser=async()=>{
+   AsyncStorage.multiGet(['username','password']).then((userData=>{
+       
+        const username = userData[0][1];
+        const password = userData[1][1];
+        if((username&&password)){
+          console.log(username,password)  
+        handlePress(username,password)
+      
+        } 
+      }))
   
-  useLayoutEffect(()=>{
+      }
+  
     VerifyUser() 
+    console.log('verify user')
 
   },[])
 
 
-  const handlePress = async () => {
-
-   
+  const handlePress = async (username,password) => {
+console.log(username,password)
+if(!(username&&password)){
+ alert('please enter username or password')
+  return 
+}
+  setLoading(true)
+  setBGColor(styles.AIBG)
     const currentDate = new Date();
     const loginTime = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
-
+   
     const payload = {
       email: username.length > 11 ? username : null,
       password: password,
@@ -55,7 +63,7 @@ const Index = () => {
       rememberMe: false, 
       loginTime: loginTime,
     };
-
+  
     const url = "https://sug.digiicampus.com/rest/service/authenticate";
 
     try {
@@ -97,6 +105,7 @@ const Index = () => {
       Alert.alert('Login Failed Please try again')
       console.error('Error during authentication:', error);
     }
+    setBGColor(null)
     setLoading(false)
   };
 
@@ -128,7 +137,7 @@ const Index = () => {
         />   
     
         <TouchableOpacity
-          onPress={handlePress}
+          onPress={()=>handlePress(username,password)}
           style={styles.button}
           accessible={true}
           accessibilityLabel="Sign in button"
@@ -143,8 +152,12 @@ const Index = () => {
             <Link href={'/forgotpassword'}>Click Here!</Link>
           </TouchableOpacity>
         </Text>
-        <ActivityIndicator size={'large'}
+       <View  style={[ActivityIndicatorLoading.loading,bGColor]}>
+       <ActivityIndicator
+      
+       size={80}
         animating={loading}/>
+       </View>
       </SafeAreaView>
     </SafeAreaProvider>
   );
