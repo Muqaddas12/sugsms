@@ -28,6 +28,7 @@ const Status = () => {
                 // console.log(secondNumber,fourthNumber)
                 secondNumber+=1
                 if(secondNumber===fourthNumber){
+                 
                     setShowWebView(true)
                     return
                 }{
@@ -73,9 +74,9 @@ const Status = () => {
            {
             showWebView?(
           
-                <WebView source={{uri : 'https://scholarship.up.gov.in/status2223.aspx'}}
+                <WebView source={{uri : `https://scholarship.up.gov.in/status${session}.aspx`}}
                  style={styles.webViewContainer}
-                 scalesPageToFit={false}
+                 scalesPageToFit={true}
                
                  />
               
