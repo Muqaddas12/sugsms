@@ -161,12 +161,12 @@ PdfViewer(fileUri)
         )}
       </View>
 
-      <View style={styles.createPdfContainer}>
+      {/* <View style={styles.createPdfContainer}>
         <TouchableOpacity style={styles.createButton} onPress={CreateNewPdfHandler}>
           <Text style={styles.buttonText}>Create New Pdf</Text>
         </TouchableOpacity>
      
-      </View>
+      </View> */}
     
       <Footer />
      

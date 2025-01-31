@@ -8,7 +8,6 @@ import CreatePdf from "../src/helper/createpdf";
 import requestPermission from "../src/helper/requestPermission";
 import * as fs from 'expo-file-system'
 import { width,height } from "../src/wrapper/Dimensions";
-
 const Homepage = () => {
   const [loading,setLoading]=useState(false)
   const { data } = useLocalSearchParams();
@@ -56,12 +55,15 @@ try {
     }
   };
 const handleCreatePdf=async()=>{
-if(await CreatePdf()){
-  // console.log('hello')
-  // router.push('/managePdfFiles')
- 
+  setLoading(true)
+const result=await CreatePdf()
+setLoading(false)
+if(result){
+  Alert.alert('Sucess','Pdf Created Sucessfully')
 }
-
+else{
+  Alert.alert('Error ','Error in creating pdf please try again')
+}
 }
   return (
     <View style={styles.container}>
@@ -83,7 +85,7 @@ if(await CreatePdf()){
                 <Text style={styles.scanButtonText}>Scan More</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.scanButton} onPress={handleCreatePdf}>
-                <Text style={styles.scanButtonText}>Submit Pdf</Text>
+                <Text style={styles.scanButtonText}>Upload and Save Pdf</Text>
               </TouchableOpacity>
             </View>
           </>
@@ -97,11 +99,17 @@ if(await CreatePdf()){
               </TouchableOpacity>
           
             </View> 
-             <ActivityIndicator size={'large'} animating={loading} />
+           
           </View>
         )}
       </ScrollView>
-     
+     <View style={styles.ActivityIndicatorContainer}>
+      <ActivityIndicator
+      style={styles.activityIndicatorIcon}
+      animating={loading}
+      size='100'
+      />
+     </View>
 {/** footer */}
 <Footer/>
     </View>
@@ -114,6 +122,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   welcomeContainer: {
+    flex:1,
     justifyContent: 'center',
     alignItems: 'center',
 
@@ -172,6 +181,17 @@ margin:5,
   errortext: {
     fontSize: 20,
     marginBottom: 20,
+  },
+  ActivityIndicatorContainer:{
+    flex:1,
+    position:'absolute',
+    top:height*.5,
+    left:width*.5,
+    bottom:height*.5,
+    right:width*.5,
+  },
+  activityIndicatorIcon:{
+    
   }
 });
 

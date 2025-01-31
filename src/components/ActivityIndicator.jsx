@@ -1,4 +1,4 @@
-  <View  style={[ActivityIndicatorLoading.loading,bGColor]}>
+  <View  style={[ActivityIndicatorLoading.loading]}>
        <ActivityIndicator
       
        size={80}
