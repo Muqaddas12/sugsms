@@ -190,15 +190,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   userImage: {
-    width: 100,
-    height: 100,
+    width: width*.35,
+    height: height*.2,
     borderRadius: 50,
     borderColor: "white",
     borderWidth: 2,
   },
   userDetailsText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize:width*.03,
     fontWeight: "600",
     marginBottom: 5,
   },

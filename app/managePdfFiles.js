@@ -10,6 +10,7 @@ import prompt from 'react-native-prompt-android';
 import { useRouter } from 'expo-router';
 import { width,height } from '../src/wrapper/Dimensions';
 import * as DocumentPicker from 'expo-document-picker'
+import * as Sharing from 'expo-sharing'
 const managePdfFiles = () => {
   const router=useRouter()
 
@@ -164,6 +165,7 @@ PdfViewer(fileUri)
         <TouchableOpacity style={styles.createButton} onPress={CreateNewPdfHandler}>
           <Text style={styles.buttonText}>Create New Pdf</Text>
         </TouchableOpacity>
+     
       </View>
     
       <Footer />
