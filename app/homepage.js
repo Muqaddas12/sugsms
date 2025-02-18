@@ -16,7 +16,7 @@ import CreatePdf from "../src/helper/createpdf";
 import useDocumentScanner from "../src/helper/useDocumentScanner";
 
 import { width, height } from "../src/wrapper/Dimensions";
-import Promt from "../src/components/Promt";
+
 const Homepage = () => {
   const { scannedImage, scanDocument, scanMoreDocument } = useDocumentScanner();
   const [loading, setLoading] = useState(false);
@@ -37,7 +37,7 @@ const Homepage = () => {
       <Navbar />
       <ScrollView contentContainerStyle={styles.mainContainer}>
         {scannedImage.length > 0 ? (
-          <>
+          <View style={styles.scannedImagesContainer}>
             {scannedImage.map((image, index) => (
               <View style={styles.imageContainer} key={index}>
                 <Image
@@ -51,23 +51,31 @@ const Homepage = () => {
               <TouchableOpacity
                 style={styles.scanButton}
                 onPress={scanMoreDocument}
+                disabled={loading?true:false}
               >
                 <Text style={styles.scanButtonText}>Scan More</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.scanButton}
                 onPress={handleCreatePdf}
+                disabled={loading?true:false}
               >
                 <Text style={styles.scanButtonText}>Upload and Save Pdf</Text>
               </TouchableOpacity>
             </View>
-          </>
+          </View>
         ) : (
           <View style={styles.welcomeContainer}>
             <Text style={styles.greeting}>Shobhit University,Gangoh</Text>
             <Text style={styles.subgreetText}>
               Scholarship Management System
             </Text>
+            <View style={styles.welcomeFooter}>
+        <TouchableOpacity style={styles.scanButton} onPress={scanDocument}>
+          <Text style={styles.scanButtonText}>Click Here To Scan Document</Text>
+        </TouchableOpacity>
+    
+      </View>
           </View>
         )}
       </ScrollView>
@@ -78,22 +86,10 @@ const Homepage = () => {
           size="100"
         />
       </View>
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.scanButton} onPress={scanDocument}>
-          <Text style={styles.scanButtonText}>Click Here To Scan Document</Text>
-        </TouchableOpacity>
-        {/* <Text style={styles.alreadyText}>Already have scanned images?</Text>
-              <TouchableOpacity style={styles.scanButton} onPress={scanDocument}>
-                <Text style={styles.scanButtonText}>Click Here To Scan Document</Text>
-              </TouchableOpacity>
-              <Text style={styles.alreadyText}>Already have pdf?</Text>
-              <TouchableOpacity style={styles.scanButton} onPress={scanDocument}>
-                <Text style={styles.scanButtonText}>Click Here To Scan Document</Text>
-              </TouchableOpacity> */}
-      </View>
+ 
   
       {/** footer */}
-      <Footer />
+     {loading?'': <Footer />}
     </View>
     
   );
@@ -106,13 +102,20 @@ const styles = StyleSheet.create({
   },
   welcomeContainer: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
+    height:height*.9,
   },
   mainContainer: {
     padding: 20,
     flexWrap: "wrap",
     flexDirection: "row",
+ 
+  
+    
+  },
+  scannedImagesContainer:{
+flexDirection:'row',
+flexWrap:'wrap'
   },
   footerContainer: {
     alignItems: "center",
@@ -149,9 +152,21 @@ const styles = StyleSheet.create({
   },
   footer: {
     marginBottom: 20,
-    flexDirection: "column",
+    flexDirection: "row",
     width: width,
-    alignItems: "center",
+    alignItems:'center',
+    justifyContent:'space-around',
+    
+    
+  },
+  welcomeFooter:{
+    marginBottom: 20,
+    flexDirection: "row",
+    width: width,
+    alignItems:'center',
+    justifyContent:'space-around',
+    position:'absolute',
+    bottom:0
   },
   ActivityIndicatorContainer: {
     flex: 1,
